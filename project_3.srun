@@ -1,0 +1,12 @@
+#!/usr/bin/bash
+#SBATCH --partition=ficklin_class
+#SBATCH --account=ficklin_class
+#SBATCH --job-name=afs505_project3
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=brian.eisenbarth@wsu.edu
+#SBATCH --error=afs505_project3.err
+#SBATCH --nodes=1
+
+ml nextflow/20.01.0
+ml java/1.8.0
+nextflow run project3.nf -profile slurm
