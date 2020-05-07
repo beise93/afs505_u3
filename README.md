@@ -11,9 +11,8 @@ You will need to install Nextflow and Blast. Java 8 or later is also required to
 -[JAVA](https://www.java.com/en/download/) Version 8 or later
 
 ## Project Instructions
-### First Steps: 
-#### creating the config file
-In creating this pipeline you will need to create a ```nextflow.config``` file to store parameters for which our pipeline will use. In creating this config file you are storing parameters for inputs, output and so forth that our workflow script will reference. We will also place our nextflow directives in this file. This is an important step in allowing nextflow to launch jobs on our exectuor or any other workload manager like Slurm. Placing directives and params in a config file also allows us to simply change these features without having to edit our script.
+### 1: Setup the config file
+In using this pipeline you will need to setup a ```nextflow.config``` file to store parameters for which our pipeline will use. In creating this config file you are storing parameters for inputs, output and so forth that our workflow script will reference. We will also place our nextflow directives in this file. This is an important step in allowing nextflow to launch jobs on our exectuor or any other workload manager like Slurm. Placing directives and params in a config file also allows us to simply change these features, such as the number of CPUS to run our script, without having to edit our script. Also, it is much simpler to place this file into the same directory as the Nextflow script. 
 ##### Example .config file
 ``` groovy
 params{
@@ -35,10 +34,20 @@ profiles {
 }
 
 ```
-#### Nextflow script
-After creating a nextflow config file you can get started on creating the actual nextflow script to create the workflow sript. Although Nextflow scripting utilizes the Groovy programming language you can create scripts mixing by using any other scripting language that is supported by Linux. Essentially a Nextflow script is made up of different processes that communicate through *channels*: sending outputs and receiving inputs. These processes can be written in the programming language you are most familiar with. Aside from the Groovy syntax that Nextflow uses this project utilizes only basic Linux commands such as ```grep``` and ```sed``` to create the processes necessary to get the results. 
+### 2: Nextflow script
+After setting up the nextflow config file you can get started on creating the actual nextflow script to create the workflow sript. Although Nextflow scripting utilizes the Groovy programming language you can create also use scripts that are in other scripting languages that are supported by Linux. My script uses only BASH commands.
 
-An issue that may come up is when you utilize a script that uses an escape character that Groovy uses but is necessary for your scripting language. For a process you generally define a shell block  to define the shell command to be executed by the process using triple quotes ```"""..."""```. However, you may run into issues when using certain characters that are interpreted differently by the Groovy language. In the project this occured when I was using ```perl -p -e 's/\.\d+\t/\t/g'``` this caused Nextflow to gripe about an unexepcted character for the backslash \ fortunately Groovy provides alternative string definitions: I had to use the dollar slashy string ```$/…​/$``` For more on this issue see the documentation: https://groovy-lang.org/syntax.html#_dollar_slashy_string
+### 3: SLURM script
+This project uses Washington State University's Kamiak to launch the workflow script. The script tells Kamiak which modules( Nextflow and Java) it needs to load for our workflow script and then runs the Nextflow script with our profile configuration that we created in the config file.
 
+### 4: Launching the job
+To run our workflow we submit our SLURM script to Kamiak using:
+``` 
+sbatch project_3.srun 
+```
+There's no other commands needed. Our Nextflow script will handle the execution of the other jobs using Kamiak on our behalf.
 ## Author
 **Brian Eisenbarth**
+
+## Acknowledgements 
+Dr. Stephen Ficklin for helping figure out the code.
