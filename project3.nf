@@ -14,7 +14,7 @@ Channel
 	.splitFasta(by: params.chunkSize, file:true)
 	.set { fasta_ch }
 /* This process takes as input the chunks from the fasta_ch channel and outputs each of the BLAST results into
- * a file "blast_result into the blast_ch.
+ * a file "blast_result" into the blast_ch.
  */
 process blast_job {
 
