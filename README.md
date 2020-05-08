@@ -60,6 +60,9 @@ To launch the workflow without using using the job submission script, but still 
 nextflow run project3.nf -profile slurm
 ```
 This alternative is not recommended however, as your idev session may run out before workflow is fully completed.
+
+#### Results
+The resulting ```gene_counts.txt``` is published in a directory ```gene_counts``` that the workflow script creates in the working directory where the script is run.
 ## Author
 **Brian Eisenbarth**
 
