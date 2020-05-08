@@ -38,7 +38,7 @@ profiles {
 After setting up the nextflow config file you can get started on creating the actual nextflow script to create the workflow sript. Although Nextflow scripting utilizes the Groovy programming language you can create also use scripts that are in other scripting languages that are supported by Linux. My script uses only BASH commands to create the summary file of gene matches from the blast results so that genes are in the first column and the number of matches are in the second.
 
 ### 3: SLURM script
-This project uses Washington State University's Kamiak to launch the workflow script. The script tells Kamiak which modules( Nextflow and Java) it needs to load for our workflow script and then runs the Nextflow script with our profile configuration that we created in the config file. 
+This project uses Washington State University's Kamiak to launch the workflow script. The script tells Kamiak which modules (Nextflow and Java) it needs to load for our workflow script and then runs the Nextflow script with our profile configuration that we created in the config file. 
 ```
 ml nextflow/20.01.0
 ml java/1.8.0
@@ -53,6 +53,13 @@ To run our workflow we submit our SLURM script to Kamiak using:
 sbatch project_3.srun 
 ```
 There's no other commands needed. Our Nextflow script will handle the execution of the other jobs using Kamiak on our behalf.
+
+To launch the workflow without using using the job submission script, but still using Kamiak, a user would need to make sure they have both Nextflow and Java available, be on an idev session, and then use the command: 
+
+```
+nextflow run project3.nf -profile slurm
+```
+This alternative is not recommended however, as your idev session may run out before workflow is fully completed.
 ## Author
 **Brian Eisenbarth**
 
