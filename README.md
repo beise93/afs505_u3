@@ -12,7 +12,7 @@ You will need to install Nextflow and Blast. Java 8 or later is also required to
 
 ## Project Instructions
 ### 1: Setup the config file
-In using this pipeline you will need to setup a ```nextflow.config``` file to store parameters for which our pipeline will use. In creating this config file you are storing parameters for inputs, output and so forth that our workflow script will reference. We will also place our nextflow directives in this file. This is an important step in allowing nextflow to launch jobs on our exectuor or any other workload manager like Slurm. Placing directives and params in a config file also allows us to simply change these features, such as the number of CPUS to run our script, without having to edit our script. Also, it is much simpler to place this file into the same directory as the Nextflow script. 
+In using this pipeline you will need to setup a ```nextflow.config``` file to store parameters for which our pipeline will use. In creating this config file you are storing parameters for inputs, output and so forth that our workflow script will reference. We will also place our nextflow directives in this file. This is an important step in allowing nextflow to launch jobs on our exectuor or any other workload manager like Slurm. Placing directives and params in a config file also allows us to simply change these features, such as the number of CPUS to run our script, without having to edit our script. Also, it is much simpler to place this file into the same directory as the Nextflow script. Currently, the config file is set up to split the fasta file into chunks of 5000.
 ##### Example .config file
 ``` groovy
 params{
@@ -35,10 +35,17 @@ profiles {
 
 ```
 ### 2: Nextflow script
-After setting up the nextflow config file you can get started on creating the actual nextflow script to create the workflow sript. Although Nextflow scripting utilizes the Groovy programming language you can create also use scripts that are in other scripting languages that are supported by Linux. My script uses only BASH commands.
+After setting up the nextflow config file you can get started on creating the actual nextflow script to create the workflow sript. Although Nextflow scripting utilizes the Groovy programming language you can create also use scripts that are in other scripting languages that are supported by Linux. My script uses only BASH commands to create the summary file of gene matches from the blast results so that genes are in the first column and the number of matches are in the second.
 
 ### 3: SLURM script
-This project uses Washington State University's Kamiak to launch the workflow script. The script tells Kamiak which modules( Nextflow and Java) it needs to load for our workflow script and then runs the Nextflow script with our profile configuration that we created in the config file.
+This project uses Washington State University's Kamiak to launch the workflow script. The script tells Kamiak which modules( Nextflow and Java) it needs to load for our workflow script and then runs the Nextflow script with our profile configuration that we created in the config file. 
+```
+ml nextflow/20.01.0
+ml java/1.8.0
+nextflow run project3.nf -profile slurm
+```
+
+The ```#SBATCH``` script directives can be tailored to suit user preferences.
 
 ### 4: Launching the job
 To run our workflow we submit our SLURM script to Kamiak using:
