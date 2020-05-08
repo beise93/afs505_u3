@@ -1,6 +1,0 @@
-#!/bin/bash
-sample_dir=$1
-ILLUMINACLIP_PATH=/usr/
-
-sample_names=`ls $sample_dir | sed -e 's/_[12]\.fastq//g' | sort -u`
-echo $sample_names
